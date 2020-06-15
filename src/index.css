@@ -56,3 +56,7 @@ ol, ul {
 .sort-moves {
     margin-top: 5px;
 }
+
+.highlight {
+    background-color: yellow;
+}
