@@ -52,3 +52,7 @@ ol, ul {
 .bold {
     font-weight: bold;
 }
+
+.sort-moves {
+    margin-top: 5px;
+}

@@ -54,7 +54,9 @@ class Game extends React.Component {
       xIsNext: true,
       // 後で手を戻せるように手数の状態を保持
       stepNumber: 0,
+      isReverse: false
     };
+    this.sortMoves = this.sortMoves.bind(this)
   }
 
   handleClick(i) {
@@ -84,6 +86,12 @@ class Game extends React.Component {
     })
   }
 
+  sortMoves() {
+    this.setState({
+      isReverse: !this.state.isReverse
+    })
+  }
+
   render() {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
@@ -100,6 +108,10 @@ class Game extends React.Component {
         </li>
       );
     });
+
+    if (this.state.isReverse) {
+      moves.reverse()
+    }
 
     let status;
     if (winner) {
@@ -118,6 +130,7 @@ class Game extends React.Component {
         </div>
         <div className="game-info">
           <div>{status}</div>
+          <button className="sort-moves" onClick={this.sortMoves}>ASC/DESC</button>
           <ol>{moves}</ol>
         </div>
       </div>
