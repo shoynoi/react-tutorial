@@ -96,7 +96,7 @@ class Game extends React.Component {
   render() {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
-    const winnerData = calculateWinner(current.squares);
+    const matchData = calculateWinner(current.squares);
 
     const moves = history.map((step, move) => {
       const desc = move ?
@@ -116,9 +116,13 @@ class Game extends React.Component {
 
     let status;
     let highlight = [];
-    if (winnerData) {
-      status = 'Winner: ' + winnerData.winner;
-      highlight = winnerData.winMoves
+    if (matchData) {
+      if (matchData.match === 'win') {
+        status = 'Winner: ' + matchData.winner;
+        highlight = matchData.winMoves
+      } else if (matchData.match === 'draw') {
+        status = 'Draw'
+      }
     } else {
       status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
     }
@@ -163,9 +167,12 @@ function calculateWinner(squares) {
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
     // 厳密等価演算子(===)の方が論理AND(&&)よりも優先順位が高い
-    if (squares[a] && (squares[a] === squares[b]) && (squares[a] === squares[c])) {
-      return { winner: squares[a], winMoves: lines[i]};
+    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+      return { match: 'win', winner: squares[a], winMoves: lines[i]};
     }
+  }
+  if (squares.every((square) => square !== null)) {
+    return { match: 'draw' }
   }
   return null;
 }
